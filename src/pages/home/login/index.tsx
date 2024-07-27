@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function Login() {
   return (
     <main className="w-full h-screen">
@@ -24,7 +26,7 @@ export function Login() {
             <button className="text-xs">Esqueceu a senha?</button>
           </div>
           <div className="flex flex-col outline outline-1 outline-gray-300 gap-4 justify-center items-center py-5">
-            <p className="text-sm">Não tem conta? <span className="cursor-pointer text-sky-500 font-semibold">Cadastre-se</span></p>
+            <p className="text-sm">Não tem conta? <Link className="cursor-pointer text-sky-500 font-semibold" to="/accounts/emailsignup">Cadastre-se</Link></p>
           </div>
         </div>
       </div>
