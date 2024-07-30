@@ -94,7 +94,7 @@ export function Signup() {
             <div className="flex flex-col gap-4">
               <p className="text-center text-xs text-gray-500">As pessoas que usam nosso serviço podem ter enviado suas informações de contato para o Instagram. <button className="text-blue-700">Saiba mais</button></p>
               <p className="text-center text-xs text-gray-500">Ao se cadastrar, você concorda com nossos <button className="text-blue-700">Termos</button>, <button className="text-blue-700">Política de Privacidade</button> e <button className="text-blue-700">Política de Cookies.</button></p>
-              <button className="font-semibold text-white bg-sky-400 rounded-md w-full py-1.5 text-sm" type="submit" id="submit">Cadastre-se</button>
+              <button className="font-semibold text-white bg-sky-400 rounded-md w-full py-1.5 text-sm" type="submit" id="submit" disabled>Cadastre-se</button>
             </div>
           </form>
         </div>
