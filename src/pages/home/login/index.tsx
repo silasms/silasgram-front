@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
+import { api } from "../../../service/axios";
 
 export function Login() {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const user = {
+      user: (document.getElementById('user') as HTMLInputElement).value,
+      password: (document.getElementById('password') as HTMLInputElement).value,
+    }
+    const { data } = await api.post('user/login', { user: user.user, password: user.password })
+    console.log({data})
+  }
+
   return (
     <main className="w-full h-screen">
       <div className="flex h-full justify-center items-center">
@@ -9,11 +20,11 @@ export function Login() {
             <div className="flex justify-center">
               <i className="my-5" style={{backgroundImage: 'url("https://static.cdninstagram.com/rsrc.php/v3/yM/r/8n91YnfPq0s.png")', height: '51px', backgroundPosition: '0px -52px', width: '175px'}}></i>
             </div>
-            <div className="flex flex-col gap-2">
-              <input className="bg-gray-100 py-2 px-2 text-xs outline outline-1 outline-gray-300 placeholder:text-gray-500" type="text" name="email" id="email" placeholder="Nome de usuário ou email" value=''/>
-              <input className="bg-gray-100 py-2 px-2 text-xs outline outline-1 outline-gray-300 placeholder:text-gray-500" type="password" name="password" id="password" placeholder="Senha" value=''/>
-            </div>
-            <button className="font-semibold text-white bg-sky-400 rounded-md px-28 py-1">Entrar</button>
+            <form className="flex flex-col gap-2" onSubmit={onSubmit}>
+              <input className="bg-gray-100 py-2 px-2 text-xs outline outline-1 outline-gray-300 placeholder:text-gray-500" type="text" name="user" id="user" placeholder="Nome de usuário ou email"/>
+              <input className="bg-gray-100 py-2 px-2 text-xs outline outline-1 outline-gray-300 placeholder:text-gray-500" type="password" name="password" id="password" placeholder="Senha"/>
+              <button className="font-semibold text-white bg-sky-400 rounded-md px-28 py-1" type="submit">Entrar</button>
+            </form>
             <div className="flex justify-around items-center my-2">
               <div className="bg-gray-300 w-full" style={{height: '1.6px'}}></div>
               <p className="text-gray-400 font-semibold text-xs mx-4">OU</p>
