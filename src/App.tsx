@@ -1,11 +1,12 @@
+import { AuthProvider } from "./contexts/auth.context"
 import { Router } from "./routes/router"
 
 function App() {
   return (
     <>
-      <div className="">
+      <AuthProvider>
         <Router/>
-      </div>
+      </AuthProvider>
     </>
   )
 }
