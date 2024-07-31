@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { api } from "../../../service/axios";
+import { useAuth } from "../../../hooks/auth";
 
 export function Login() {
+  const { signin } = useAuth()
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const user = {
@@ -9,7 +12,7 @@ export function Login() {
       password: (document.getElementById('password') as HTMLInputElement).value,
     }
     const { data } = await api.post('user/login', { user: user.user, password: user.password })
-    console.log({data})
+    signin(data)
   }
 
   return (
