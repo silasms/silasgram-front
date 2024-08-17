@@ -12,7 +12,8 @@ export function Login() {
       password: (document.getElementById('password') as HTMLInputElement).value,
     }
     const { data } = await api.post('user/login', { user: user.user, password: user.password })
-    signin(data)
+    const response = await api.post('user/decodetoken', { token: data })
+    signin(data, response.data)
   }
 
   return (
