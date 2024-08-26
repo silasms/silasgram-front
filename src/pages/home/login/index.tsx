@@ -20,7 +20,7 @@ export function Login() {
     <main className="w-full h-screen">
       <div className="flex h-full justify-center items-center">
         <div className="flex flex-col gap-3">
-          <div className="flex flex-col outline outline-1 outline-gray-300 px-10 gap-4 py-5">
+          <div className="flex flex-col outline outline-1 outline-gray-300 px-10 gap-4 py-5 bg-white text-slate-700">
             <div className="flex justify-center">
               <i className="my-5" style={{backgroundImage: 'url("https://static.cdninstagram.com/rsrc.php/v3/yM/r/8n91YnfPq0s.png")', height: '51px', backgroundPosition: '0px -52px', width: '175px'}}></i>
             </div>
@@ -40,7 +40,7 @@ export function Login() {
             </div>
             <button className="text-xs">Esqueceu a senha?</button>
           </div>
-          <div className="flex flex-col outline outline-1 outline-gray-300 gap-4 justify-center items-center py-5">
+          <div className="flex flex-col outline outline-1 outline-gray-300 gap-4 justify-center items-center py-5 bg-white text-slate-700">
             <p className="text-sm">Não tem conta? <Link className="cursor-pointer text-sky-500 font-semibold" to="/accounts/emailsignup">Cadastre-se</Link></p>
           </div>
         </div>
