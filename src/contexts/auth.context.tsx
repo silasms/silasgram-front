@@ -2,7 +2,12 @@ import { createContext, useState } from "react";
 
 export interface AuthContextValue {
   signedIn: boolean
-  user: { email: string, id: string, name: string }
+  user: {
+    username: string | undefined,
+    email: string,
+    id: string,
+    name: string 
+}
   signin: (token: string, user?: object) => void
   token: string
   logout: () => void
