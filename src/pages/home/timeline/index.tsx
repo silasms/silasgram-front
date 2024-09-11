@@ -1,37 +1,84 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { api } from "../../../service/axios"
 import { useAuth } from "../../../hooks/auth"
 import { Post } from "./components/post.component"
+import Image from '../../../assets/image.svg?react'
+
+type Post = {
+  id: string;
+  authorId: string;
+  description: string | null;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+  author: {
+    id: string;
+    email: string;
+    username: string;
+    password: string;
+    name: string;
+    image: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+  }
+}
 
 export function Timeline() {
-  const { user } = useAuth()
+  const { user, token } = useAuth()
+  const [ posts, setPosts ] = useState<Post[]>([])
 
   useEffect(() => {
     async function getPosts() {
       const { data } = await api.get(`user/getposts/${user.id}`)
-      console.log({data})
+      setPosts(data)
     }
     getPosts()
   }, [])
 
+  const createPost = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    const files = (document.getElementById('file') as HTMLInputElement).files
+    if (files?.length === 0 || files === null ) return
+    const buffer = await files[0].arrayBuffer()
+    const base64String = btoa(
+      new Uint8Array(buffer)
+        .reduce((data, byte) => data + String.fromCharCode(byte), '')
+    );
+    await api.post('/post', {
+      image:  base64String,
+      authorId: user.id,
+    },
+    {
+      headers: {
+        Authorization: token
+      }
+    })
+  }
+
   return (
     <div>
-      timeline
-      <div className="flex flex-col justify-center items-center">
-        <Post
-          perfil={{name: 'silas', image: 'https://pbs.twimg.com/profile_images/1247951483636613120/EXkmZHgc_400x400.jpg'}}
-          image="https://scontent.cdninstagram.com/v/t39.30808-6/455695638_1069637511192133_9094654411658192402_n.jpg?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDgweDEzNTAuc2RyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=_cn1tARh6J8Q7kNvgG9d-Ew&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzQzNjkzMTI1ODM1NjkzMDQzMQ%3D%3D.2-ccb7-5&oh=00_AYD6KyIi9sPYhKL7cmg1oQtx-f7Sc0e-MCrjJ6NvX2crxg&oe=66C70246&_nc_sid=10d13b"
-          description="testando!!!!!!!"
-          likes={[{name: 'joao', image: 'asd'}]}
-          createdAt={new Date(2023, 1)}
-        />
-        <Post
-          perfil={{name: 'silas', image: 'https://pbs.twimg.com/profile_images/1247951483636613120/EXkmZHgc_400x400.jpg'}}
-          image="https://scontent.cdninstagram.com/v/t39.30808-6/455695638_1069637511192133_9094654411658192402_n.jpg?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDgweDEzNTAuc2RyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=_cn1tARh6J8Q7kNvgG9d-Ew&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzQzNjkzMTI1ODM1NjkzMDQzMQ%3D%3D.2-ccb7-5&oh=00_AYD6KyIi9sPYhKL7cmg1oQtx-f7Sc0e-MCrjJ6NvX2crxg&oe=66C70246&_nc_sid=10d13b"
-          description="testando!!!!!!!"
-          likes={[{name: 'joao', image: 'asd'}]}
-          createdAt={new Date(2023, 1)}
-        />
+      <div>
+        <form  className="w-[468px] mx-auto my-10 flex flex-col items-end" action="">
+          <textarea className="w-full bg-black border rounded-lg h-16 max-h-16 min-h-16 resize-none pr-10" name="" maxLength={120} id="text"></textarea>
+          <input className="hidden" type="file" name="file" id="file" accept="image/png, image/jpeg" />
+          <label className="mt-[-42px] mr-2" htmlFor="file">
+            <Image className="scale-110" />
+          </label>
+            <button type="submit" className="mt-7 mr-2 bg-gray-400 px-4 py-0.5 rounded-xl" onClick={createPost}>Postar</button>
+        </form>
+      </div>
+      <div className="flex flex-col justify-center items-center gap-10">
+        {posts?.map((post) => {
+          return (
+            <Post
+              perfil={{name: post.author.name, image: post.author.image}}
+              image={post.image}
+              description={post.description}
+              likes={[{name: 'joao', image: 'asd'}]}
+              createdAt={new Date(2023, 1)}
+            />
+          )
+        })}
       </div>
     </div>
   )
